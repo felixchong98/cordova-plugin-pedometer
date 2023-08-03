@@ -21,14 +21,3 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-
-      - name: Build
-        run: npm run build  # Adjust to your build script if necessary
-
-      - name: Publish to npm registry
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-        run: |
-          echo "//registry.npmjs.org/:_authToken=\${NODE_AUTH_TOKEN}" > .npmrc
-          npm publish --access public
-        # Make sure you have set up the NPM_AUTH_TOKEN secret in your GitHub repository settings.
