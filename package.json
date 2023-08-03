@@ -26,7 +26,8 @@
     "pedestrian",
     "ecosystem:cordova",
     "cordova-ios",
-    "cordova-android"
+    "cordova-android",
+    "vvinners"
   ],
   "engines": [
     {
