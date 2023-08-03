@@ -22,8 +22,10 @@ jobs:
 
       - name: Publish to npm registry
         env:
-          NODE_AUTH_TOKEN: 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
+          NODE_AUTH_TOKEN: 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
         run: |
-          echo "//registry.npmjs.org//:_authToken=\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" > .npmrc
+          echo "//registry.npmjs.org//:_authToken=\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" > .npmrc
+          npm publish --registry https://registry.npmjs.org/
+          sleep 5
           npm publish --registry https://registry.npmjs.org/
         # Make sure you have set up the NPM_AUTH_TOKEN secret in your GitHub repository settings.
