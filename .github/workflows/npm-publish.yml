@@ -4,7 +4,7 @@ on:
   push:
       branches: [master]
   pull_request:
-      branches: [ZiMing]
+      branches: [master, ZiMing]
 
 jobs:
   publish:
@@ -25,7 +25,18 @@ jobs:
           NODE_AUTH_TOKEN: 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
         run: |
           echo "//registry.npmjs.org//:_authToken=\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" > .npmrc
-          npm publish --registry https://registry.npmjs.org/
-          sleep 5
-          npm publish --registry https://registry.npmjs.org/
-        # Make sure you have set up the NPM_AUTH_TOKEN secret in your GitHub repository settings.
+          # Retry loop with exponential backoff
+          MAX_RETRIES=5
+          RETRY_COUNT=0
+          RETRY_WAIT=2
+
+          while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+            if npm publish --registry https://registry.npmjs.org/; then
+              break
+            fi
+
+            echo "Retry attempt $((RETRY_COUNT+1))..."
+            sleep $RETRY_WAIT
+            RETRY_WAIT=$((RETRY_WAIT * 2))
+            RETRY_COUNT=$((RETRY_COUNT + 1))
+          done
